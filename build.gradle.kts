@@ -14,6 +14,16 @@ dependencies {
     testImplementation("org.junit.jupiter:junit-jupiter")
 }
 
+tasks.jar {
+    manifest {
+        archiveFileName.set("file.jar")
+        attributes["Main-Class"] = "org.example.Main"
+    }
+    from({
+        configurations.runtimeClasspath.get().filter { it.name.endsWith("jar") }.map { zipTree(it) }
+    })
+}
+
 tasks.test {
     useJUnitPlatform()
 }
